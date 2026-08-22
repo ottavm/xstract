@@ -38,3 +38,7 @@ target_compile_options(xstract
         "-Wextra"
 )
 
+install(TARGETS xstract
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
