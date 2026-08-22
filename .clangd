@@ -10,4 +10,3 @@ If:
 CompileFlags:
   Add:
     - "-DXSTFS_IMPLEMENTATION" # Useful for LSP functionality
-

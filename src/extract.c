@@ -31,7 +31,7 @@ static size_t extract_file(STFS_File *const file, FILE *fptr)
 		blk_ind++;
 		written += len;
 	}
-	
+
 	return written;
 }
 
@@ -55,7 +55,7 @@ int extract_package(XPKG_Handle *const package, DIR *dir)
 	for (size_t i = 0; i < fcount; i++) {
 		file = &package->package.files[i];
 		filename = &file->name[1];
-		
+
 		tfd = openat(dird, filename, O_WRONLY | O_CREAT,
 			     S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 		if (tfd == -1)
@@ -81,4 +81,3 @@ int extract_package(XPKG_Handle *const package, DIR *dir)
 	return 0;
 }
 	#endif
-

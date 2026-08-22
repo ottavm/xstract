@@ -89,13 +89,13 @@ static int parse_path(const char *const basepath, char *const path, size_t len)
 
 	memset(home_dir, 0, sizeof(home_dir));
 	basepath_len = strlen(basepath);
-	
+
 	size_t o = 0;
 	for (size_t i = 0; o < basepath_len + 1; ++i) {
 		c = basepath[i];
 		if (c == '~') {
 			user = expanduser();
-			
+
 			snprintf(home_dir, sizeof(home_dir), "/home/%s", user);
 			home_path_len = strlen(home_dir);
 
@@ -106,7 +106,7 @@ static int parse_path(const char *const basepath, char *const path, size_t len)
 
 		path[i] = basepath[o++];
 	}
-	
+
 	return 0;
 }
 
@@ -119,10 +119,10 @@ static int extract(XPKG_Handle *package, const char *const output_dir)
 	DIR *dir;
 
 	memset(output_path, 0, sizeof(output_path));
-	
+
 	parse_path(output_dir, output_path, sizeof(output_path));
 	printf("INFO: Extracting to \"%s\" ...\n", output_path);
-	
+
 	dir = opendir(output_path);
 	if (dir == NULL) {
 		if (errno == ENOENT) {
@@ -188,7 +188,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "ERROR: Please enter a package path.\n");
 		exit(EXIT_FAILURE);
 	}
-	
+
 	if (output_dir == NULL)
 		output_dir = "./";
 
@@ -224,4 +224,3 @@ int main(int argc, char **argv)
 
 	return status;
 }
-

@@ -2,17 +2,17 @@
 #define XSTFS_H
 
 /* - About this project -
- *	*: This header-only library exposes both high-level(ish) and low-level 
+ *	*: This header-only library exposes both high-level(ish) and low-level
  *	C structs for managing Xbox 360 Secure Transacted File Systems
  *	packages. STFS is used by, for example, a savegame file.
- *		
+ *
  *	*: Low-level structs always begins with a lowercase x <'x'>. These
  *	structs represents, with precision, how STFS files are contituted
  *	in their raw form.
  *
  *	*: Xbox 360 is big-endian. Keep this in mind. (note for myself)
  *
- *	*: High-level structs otherwise, represents STFS files in a more 
+ *	*: High-level structs otherwise, represents STFS files in a more
  *	general way. More like representint the actual content of a package
  *	than the package's guts.
  *
@@ -22,7 +22,7 @@
  *		it by myself, right?
  *
  *	NOTE: I'm not an Xbox 360 hacker, modding enthusiast nor engaged in any
- *	way with the X360's reverse engineering community. So, expect a lot of 
+ *	way with the X360's reverse engineering community. So, expect a lot of
  *	mistakes with the terms!
  *
  * - Development notes:
@@ -33,7 +33,7 @@
  * The high-level representation of STFS's embedded files (SEFiles) needs
  * a contiguous byte array to handle the contents of the underlying STFS file
  * in a nice and sane way. Since the STFS's embedded files are not represented
- * in a [header:content] layout, but rather in a 
+ * in a [header:content] layout, but rather in a
  * [[file table]:[sparse and non-consecutive blocks]] way, requiring the
  * duplication of the file's content.
  *
@@ -80,42 +80,42 @@
  *	and reorganize it in a sequence (and adjusting their size too, since
  *	the blocks are 4096 Bytes large, regardless of the it's content size).
  *
- *	The only solution that I can think of is by representing the file's 
+ *	The only solution that I can think of is by representing the file's
  *	content as a linked-list of blocks, and "dynamic" adjusting the size
  *	of the last block as needed.
- *	
+ *
  *	--------- end of the 24-Jul-26 NOTE.
  */
 
 /* --- LICENSE ---
  * BSD 3-Clause License
- * 
+ *
  * Copyright 2026 Murilo Ottávio A. Branco Reis
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *	  this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *	  this list of conditions and the following disclaimer in the documentation
  *	  and/or other materials provided with the distribution.
- * 
+ *
  * 3. Neither the name of the copyright holder nor the names of its contributors
  *	  may be used to endorse or promote products derived from this software
  *	  without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS”
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; 
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR 
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * */
 
@@ -245,7 +245,7 @@ typedef struct {
 } __attribute__((packed)) xuint24le_t;
 
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
- * Low-level representation of STFS headers. 
+ * Low-level representation of STFS headers.
  * These structs will be converted to a high level representation
  * later on.
  * NOTE: Some integers with more than one byte of lenght need to be converted
@@ -253,9 +253,9 @@ typedef struct {
  * */
 
 /*
- * Data structure of a STFS Volume descriptor and it's fields. 
+ * Data structure of a STFS Volume descriptor and it's fields.
  * From Free60.org, 2026. <https://free60.org/System-Software/Formats/STFS/>
- * 
+ *
  * NAME			| SIZE (BYTES) | TYPE		| DESCRIPTION
  * vd_size		| 1			   | uint8_t	| Volume descriptor size. Usually 0x24.
  * reserved		| 1			   | uint8_t	| Reserved.
@@ -281,10 +281,10 @@ struct xstfs_vd {
 	int32_t unalloc_blkc;
 } __attribute__((packed));
 
-/* 
+/*
  * Data structure of a SVOD Volume descriptor and it's fields.
  * From Free60.org, 2026. <https://free60.org/System-Software/Formats/STFS/>
- * 
+ *
  * NAME	       | SIZE (BYTES) | TYPE        | DESCRIPTION
  * vd_size     | 1            | uint8_t     | Volume descriptor size.
  * blkcachec   | 1            | uint8_t     | Block cache element count.
@@ -308,17 +308,17 @@ struct xsvod_vd {
 	uint8_t pad[0x5];
 } __attribute__((packed));
 
-/* Package signatures and it's fields. 
+/* Package signatures and it's fields.
  * From Free60.org, 2026. <https://free60.org/System-Software/Formats/STFS/> */
 
 /* Console Signed signature. Often found in savegames and other console-made
  * packages.
- * 
+ *
  * NAME | SIZE (BYTES)  | TYPE	    | DESCRIPTION
  * crtf_size    | 0x2   | uint8_t[] | Public Key Certificate size.
  * owner_id     | 0x5   | uint8_t[] | Certificate Owner Console ID.
  * partnumber   | 0x14  | uint8_t[] | Certificate Owner Console part number.
- * console_type | 1     | uint8_t   | Certificate Owner Console type. 
+ * console_type | 1     | uint8_t   | Certificate Owner Console type.
  *                                        (1 for devkit, 2 for retail.)
  * crtf_gendate | 0x8   | uint8_t[] | Certificate Date of Generation
  * pub_modulus  | 0x80  | uint8_t[] | Public modulus.
@@ -354,7 +354,7 @@ struct xsig_pirs {
 	uint8_t pad[0x128];
 } __attribute__((packed));
 
-/* STFS Package header. 
+/* STFS Package header.
  * From Free60.org, 2026. <https://free60.org/System-Software/Formats/STFS/>
  *
  * NAME	           | SIZE (BYTES)  | TYPE      | DESCRIPTION
@@ -580,7 +580,7 @@ int32_t xblk_to_offset(int32_t hdr_size, int32_t blockn);
 int32_t xget_physical_blk(struct xpackage *pkg, int32_t blockn);
 size_t xget_pblk_offset(struct xpackage *const pkg, int32_t blkn);
 int ismemblk0(void *addr, size_t len);
-size_t xstfs_build_pathtree(struct stfs_file *file_table, 
+size_t xstfs_build_pathtree(struct stfs_file *file_table,
 			    struct stfs_file *file,
 			    char **pathbuf);
 
@@ -727,7 +727,7 @@ int32_t xget_physical_blk(struct xpackage *pkg, int32_t blockn)
 			base = ((blockn + 0x4AF768) / 0x4AF768);
 			if (pkg->type == CON)
 				base = (base << blk_shift);
-			
+
 			ret += base;
 		}
 	}
@@ -793,7 +793,7 @@ inline uint32_t xuint24be_to_uint32le(xuint24be_t n)
 int svod_vd2le(struct xsvod_vd *be, struct svod_vd *dest)
 {
 	memcpy(dest, be, sizeof(*dest));
-	
+
 	dest->dtblkc = xuint24be_to_uint32le(be->dtblkc);
 	dest->dtblkoff = xuint24be_to_uint32le(be->dtblkoff);
 
@@ -808,12 +808,12 @@ int stfs_vd2le(struct xstfs_vd *be, struct stfs_vd *dest)
 	dest->unalloc_blkc = be32toh(be->unalloc_blkc);
 	dest->ft_blkn = xint24be_to_int32le(be->ft_blkn);
 	dest->ft_blkc = be16toh(be->ft_blkc);
-	
+
 	return 0;
 }
 
 int xmetadata2le(struct xmetadata *be, struct stfs_metadata *dest)
-{ 
+{
 	memcpy(dest, be, sizeof(*dest));
 
 	dest->base_version = be32toh(be->base_version);
@@ -843,7 +843,7 @@ int xmetadata2le(struct xmetadata *be, struct stfs_metadata *dest)
 		default:
 			break;
 	}
-	
+
 	switch (dest->met_version) {
 		case 1:
 			dest->v1.t_img_size = be32toh(be->v1.t_img_size);
@@ -935,7 +935,7 @@ size_t xstfs_build_pathtree(struct stfs_file *file_table,
 	fptr = file;
 	current_path_ind = fptr->path_ind;
 	fn_size = (fptr->fn_flags & 63) + 1;
-	
+
 	snprintf(path,
 		 sizeof(char) * (path_len + 1),
 		 PATH_SEPARATOR"%.*s",
@@ -950,9 +950,9 @@ size_t xstfs_build_pathtree(struct stfs_file *file_table,
 		fn_size = (fptr->fn_flags & 63) + 1;
 		snprintf(buffer,
 		 sizeof(char) * (path_len + 1),
-		 "%.*s"PATH_SEPARATOR"%s", 
+		 "%.*s"PATH_SEPARATOR"%s",
 		 fn_size, fptr->name, path);
-		
+
 		memcpy(path, buffer, sizeof(char) * (path_len + 1));
 		current_path_ind = fptr->path_ind;
 	}
@@ -1000,7 +1000,7 @@ XPKG_Handle* xstfs_open(const char *path)
 
 	memset(handle, 0, sizeof(*handle));
 	memset(&st, 0, sizeof(st));
-	
+
 	pkg = &handle->package;
 
 	fptr = fopen(path, "r");
@@ -1024,7 +1024,7 @@ XPKG_Handle* xstfs_open(const char *path)
 
 	handle->content = mmap_addr;
 	handle->size    = st.st_size;
-   
+
 	fclose(fptr);
 
 	pkg->raw.header   = (void*) &((uint8_t*)mmap_addr)[0];
@@ -1038,22 +1038,22 @@ error:
 
 	if (handle)
 		free(handle);
-	
+
 	if (mmap_addr)
 		munmap(mmap_addr, st.st_size);
 
-	return NULL; 
+	return NULL;
 }
 
 void xstfs_close(XPKG_Handle *handle)
 {
 	if (!handle)
 		return;
-	
+
 	struct xpackage *pkg;
 
 	pkg = &handle->package;
-	
+
 	if (pkg->files) {
 		for (size_t i = 0; i < pkg->file_count; ++i) {
 			if (pkg->files[i].blocks)
@@ -1081,7 +1081,7 @@ int xstfs_parse(XPKG_Handle *handle)
 		xstfs_seterr(XSTFS_NULL_PTR);
 		return XSTFS_NULL_PTR;
 	}
-  
+
 	struct xpackage *pkg;
 	int vd_type;
 	int err;
@@ -1107,7 +1107,7 @@ int xstfs_parse(XPKG_Handle *handle)
 	switch (vd_type) {
 	case STFS:
 		err = xstfs_parse_stfs(handle);
-		if (err == XSTFS_SUCCESS) { 
+		if (err == XSTFS_SUCCESS) {
 			xstfs_parse_files(handle);
 		} else {
 			xstfs_seterr(err);
@@ -1145,14 +1145,14 @@ int xstfs_parse_stfs(XPKG_Handle *handle)
 
 	pkg = &handle->package;
 	vol_desc = &pkg->metadata.vd_desc.stfs;
-   
+
 	has_files = (vol_desc->ft_blkc > 0);
-	
+
 	if (!has_files) {
 		pkg->file_count = 0;
 		pkg->embedded_files = NULL;
 		goto done;
-	} else { 
+	} else {
 		goto parse_files;
 	}
 
@@ -1162,7 +1162,7 @@ parse_files:
 
 	emb_file_tb = (struct xstfs_file*)&handle->content[file_table_offset];
 	xstfs_file = &emb_file_tb[0];
-   
+
 	file_count = 0;
 	while (has_files) {
 		if (ismemblk0(xstfs_file, sizeof(*xstfs_file))) {
@@ -1171,7 +1171,7 @@ parse_files:
 		xstfs_file++;
 		file_count++;
 	};
-	
+
 	if (file_count < 1) {
 		has_files = 0;
 		pkg->embedded_files = NULL;
@@ -1187,7 +1187,7 @@ convert_files:
 		xstfs_seterr(XSTFS_GENERIC_ERR);
 		return XSTFS_GENERIC_ERR;
 	}
-	
+
 	for (size_t i = 0; i < file_count; ++i) {
 		struct stfs_file *host_file;
 		struct xstfs_file *embedded_file;
@@ -1241,16 +1241,16 @@ int xstfs_parse_files(XPKG_Handle *handle)
 		filepath_buffer = NULL;
 		path_size = 0;
 		blk_data_offset = 0;
-		
+
 		fptr = &pkg->embedded_files[i];
 		file = &files[i];
-	
+
 		memset(file, 0, sizeof(*file));
 
 		filepath_buffer = file->name;
 		path_size = xstfs_build_pathtree(pkg->embedded_files, fptr,
 						 &filepath_buffer);
-		
+
 		if ((path_size > 0) && (filepath_buffer != NULL)) {
 			memset(file->name, 0, sizeof(file->name));
 			memcpy(file->name, filepath_buffer,
@@ -1263,19 +1263,19 @@ int xstfs_parse_files(XPKG_Handle *handle)
 
 		file->size = fptr->file_size;
 		file->block_count = fptr->alloc_blkc;
-		
+
 		blk_buffer = calloc(file->block_count, sizeof(*blk_buffer));
 		if (blk_buffer == NULL) {
-			if (files != NULL) 
+			if (files != NULL)
 				free(files);
 			if (filepath_buffer != NULL)
 				free(filepath_buffer);
-			
+
 			xstfs_seterr(XSTFS_GENERIC_ERR);
 			return XSTFS_GENERIC_ERR;
 		}
 
-		file->blocks = blk_buffer;	
+		file->blocks = blk_buffer;
 		for (size_t b = 0; b < file->block_count; ++b) {
 			blk_data_offset = xget_pblk_offset(pkg,
 							   fptr->first_blkn + b);
@@ -1293,4 +1293,3 @@ int xstfs_parse_files(XPKG_Handle *handle)
 #endif /* XSTFS_IMPLEMENTATION */
 
 #endif /* XSTFS_H */
-

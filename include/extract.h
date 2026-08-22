@@ -16,4 +16,3 @@
 int extract_package(XPKG_Handle *const package, DIR *dir);
 	#endif
 #endif /* EXTRACT_H */
-
