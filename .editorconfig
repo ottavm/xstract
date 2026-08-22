@@ -1,0 +1,16 @@
+root = true
+
+[*]
+end_of_line = lf
+trim_trailing_whitespaces = true
+insert_final_newline = true
+
+[*.{c,h}]
+indent_style = tab
+indent_size = 8
+indent_brace_style = K&R
+max_line_lenght = 80
+
+[*.xml]
+indent_style = space
+indent_size = 2

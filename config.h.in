@@ -1,0 +1,9 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define AUTHOR "@PROJECT_AUTHOR@"
+#define VERSION "@PROJECT_VERSION@"
+#define LICENSE "@PROJECT_SPDX_LICENSE@"
+#define HOMEPAGE_URL "@PROJECT_HOMEPAGE_URL@"
+
+#endif /* CONFIG_H */

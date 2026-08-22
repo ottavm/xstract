@@ -1,0 +1,13 @@
+CompileFlags:
+  Add:
+    - "-Iinclude/"
+    - "-std=gnu11"
+
+---
+
+If:
+  PathMatch: .*\.(h|hpp|i)$
+CompileFlags:
+  Add:
+    - "-DXSTFS_IMPLEMENTATION" # Useful for LSP functionality
+
