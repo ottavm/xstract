@@ -659,7 +659,6 @@ int xstfs_parse_files(XPKG_Handle *handle);
 #include <stdlib.h>
 
 	#ifdef __linux__
-#include <time.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
